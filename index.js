@@ -17,9 +17,12 @@ const bcryptSalt = bcrypt.genSaltSync(10)
 // console.log(process.env.MONGO_URL)
 
 const app = express()
+const router = express.Router()
 app.use(express.json())
 app.use(cookieParser())
 app.use('/uploads', express.static(__dirname + '/uploads'))
+app.use('/api', router)
+
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL,
@@ -27,7 +30,7 @@ app.use(cors({
 
 console.log(process.env.CLIENT_URL)
 
-app.get('/test', (req, res) => {
+router.get('/test', (req, res) => {
     res.json('test ok')
 })
 
