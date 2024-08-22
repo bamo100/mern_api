@@ -23,7 +23,7 @@ app.use(cookieParser())
 app.use('/uploads', express.static(__dirname + '/uploads'))
 app.use('/api', router)
 
-app.use(cors({
+router.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL,
 }))
