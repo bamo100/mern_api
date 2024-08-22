@@ -34,7 +34,7 @@ router.get('/test', (req, res) => {
     res.json('test ok')
 })
 
-app.get('/people', async (req, res) => {
+router.get('/people', async (req, res) => {
     const users = await User.find({}, {'_id': 1, username: 1})
     res.json(users)
 })
@@ -54,7 +54,7 @@ async function getUserDataFromRequest(req) {
     })
 }
 
-app.get('/messages/:userId', async (req, res) => {
+router.get('/messages/:userId', async (req, res) => {
     const {userId} = req.params
     const userData = await getUserDataFromRequest(req)
     const ourUserId = userData.userId
@@ -66,7 +66,7 @@ app.get('/messages/:userId', async (req, res) => {
     res.json(messages)
 })
 
-app.get('/profile', (req, res) => {
+router.get('/profile', (req, res) => {
     const token = req.cookies?.token
     if(token) {
         jwt.verify(token, jwtSecret, {}, (err, userData) => {
@@ -83,11 +83,11 @@ app.get('/profile', (req, res) => {
     }
 })
 
-app.post('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     res.cookie('token', '', {sameSite:'none', secure:true}).json('ok')
 })
 
-app.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
    const {username, password} = req.body
    try {
     const hashedPassword = bcrypt.hashSync(password, bcryptSalt)
@@ -109,7 +109,7 @@ app.post('/register', async (req, res) => {
 
 })
 
-app.post('/login', async(req, res) => {
+router.post('/login', async(req, res) => {
     const {username, password} = req.body
     const foundUser = await User.findOne({username})
     if(foundUser) {
